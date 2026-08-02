@@ -3,3 +3,4 @@
 vars
 translate/**/*.po~
 packages/*/contents/locale/**/*.mo
+messages.mo

@@ -35,14 +35,20 @@ install_widget() {
 	# Extract widget ID first
 	local widgetId=$(jq -r ".KPlugin.Id" "$METADATA_FILE")
 
+	# Stage the widget with symlinks resolved so the installed copy is self-contained
+	local STAGE_DIR=$(mktemp -d)
+	trap "rm -rf $STAGE_DIR" EXIT
+	echo "[*] Resolving symlinks into staging directory..."
+	tar -C "${WIDGET_DIR}" -chf - . | tar -C "$STAGE_DIR" -xf -
+
 	if [[ -n "$KPACKAGE" ]]; then
 		if [[ -d "$HOME/.local/share/plasma/plasmoids/${widgetId}" ]]; then
 			echo "[+] Widget already installed. Updating: ${widgetId}"
-			$KPACKAGE --type=Plasma/Applet -u "${WIDGET_DIR}"
+			$KPACKAGE --type=Plasma/Applet -u "$STAGE_DIR"
 			local install_result=$?
 		else
 			echo "[+] Installing widget: ${widgetId}"
-			$KPACKAGE --type=Plasma/Applet -i "${WIDGET_DIR}"
+			$KPACKAGE --type=Plasma/Applet -i "$STAGE_DIR"
 			local install_result=$?
 		fi
 	else
@@ -55,7 +61,7 @@ install_widget() {
 		else
 			echo "[+] Installing widget: ${widgetId} (manual copy)"
 		fi
-		cp -r "${WIDGET_DIR}" "$DEST_DIR"
+		cp -r "$STAGE_DIR" "$DEST_DIR"
 		local install_result=$?
 	fi
 	
