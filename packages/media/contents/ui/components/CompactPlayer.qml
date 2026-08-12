@@ -54,26 +54,13 @@ Item {
                         Layout.preferredHeight: 80
                         color: compactRoot.colors.surface
                         radius: 12
-                        clip: true
 
-                        Image {
-                            id: thumbnailImage
+                        AlbumArtwork {
                             anchors.fill: parent
-                            source: compactRoot.albumArt
-                            fillMode: Image.PreserveAspectCrop
-                            mipmap: true
-                            smooth: true
-                            visible: compactRoot.albumArt !== ""
-                        }
-
-                        // Fallback icon
-                        Kirigami.Icon {
-                            anchors.centerIn: parent
-                            width: 48
-                            height: 48
-                            source: "media-optical-audio"
-                            color: compactRoot.colors.textDisabled
-                            visible: compactRoot.albumArt === ""
+                            colors: compactRoot.colors
+                            artUrl: compactRoot.albumArt
+                            cornerRadius: 12
+                            backgroundColor: compactRoot.colors.surface
                         }
                     }
 
