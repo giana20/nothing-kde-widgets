@@ -11,8 +11,30 @@ Item {
     property int scrollSpeed: 20  // pixels per character difference
     property int initialPause: 2000
     property int endPause: 1000
+    property bool scrollResetQueued: false
 
     clip: true
+
+    function queueScrollReset() {
+        if (scrollResetQueued) {
+            return
+        }
+
+        scrollResetQueued = true
+        Qt.callLater(function() {
+            scrollResetQueued = false
+            marqueeAnimation.stop()
+            scrollingText.x = 0
+
+            if (scrollingText.needsScrolling) {
+                marqueeAnimation.start()
+            }
+        })
+    }
+
+    Component.onCompleted: queueScrollReset()
+    onTextChanged: queueScrollReset()
+    onWidthChanged: queueScrollReset()
 
     Text {
         id: scrollingText
@@ -21,12 +43,13 @@ Item {
         font.bold: marqueeRoot.bold
         color: marqueeRoot.textColor
 
-        property bool needsScrolling: width > parent.width
+        property real scrollDistance: Math.max(0, width - parent.width)
+        property bool needsScrolling: scrollDistance > 0
 
         x: 0
 
         SequentialAnimation on x {
-            running: scrollingText.needsScrolling
+            id: marqueeAnimation
             loops: Animation.Infinite
 
             // Initial pause
@@ -35,8 +58,8 @@ Item {
             // Scroll to the left
             NumberAnimation {
                 from: 0
-                to: -(scrollingText.width - scrollingText.parent.width)
-                duration: scrollingText.needsScrolling ? (scrollingText.width - scrollingText.parent.width) * marqueeRoot.scrollSpeed : 0
+                to: -scrollingText.scrollDistance
+                duration: scrollingText.scrollDistance * marqueeRoot.scrollSpeed
                 easing.type: Easing.Linear
             }
 
@@ -45,9 +68,9 @@ Item {
 
             // Scroll back to the right
             NumberAnimation {
-                from: -(scrollingText.width - scrollingText.parent.width)
+                from: -scrollingText.scrollDistance
                 to: 0
-                duration: scrollingText.needsScrolling ? (scrollingText.width - scrollingText.parent.width) * marqueeRoot.scrollSpeed : 0
+                duration: scrollingText.scrollDistance * marqueeRoot.scrollSpeed
                 easing.type: Easing.Linear
             }
         }
