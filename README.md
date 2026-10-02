@@ -29,6 +29,7 @@
 | **Digital Clock** | `clock-digital` | Pill, Square | <img src="0-images/digital-clock/digital-clock-pill.png" width="150"> <img src="0-images/digital-clock/digital-clock-square.png" width="150"> |
 | **Digital Clock (World)** | `clock-digital` | Page 1, Page 2 | <img src="0-images/world-clock/world-clock-1.png" width="150"> <img src="0-images/world-clock/world-clock-2.png" width="150"> |
 | **Digital Clock Large** | `clock-digital-large` | Serif, Sharp | <img src="0-images/digital-clock-large/serif.png" width="150"> <img src="0-images/digital-clock-large/sharp.png" width="150"> |
+| **Digital Clock Stacked** | `clock-digital-stacked` | Stacked | <img src="0-images/digital-clock-stacked/digital-clock-stacked.png" width="150"> |
 | **Date Widget** | `date` | Page 1 | <img src="0-images/date/date-1.png" width="150"> |
 | **Battery** | `battery` | Page 1 | <img src="0-images/battery/battery-1.png" width="150"> |
 | **Weather** | `weather` | Rect Page 1, Rect Page 2, Square Page 1, Square Page 2 | <img src="0-images/weather-default/weather-rect-1.png" width="150"> <img src="0-images/weather-default/weather-rect-2.png" width="150"> <img src="0-images/weather-default/weather-square-1.png" width="150"> <img src="0-images/weather-default/weather-square-2.png" width="150"> |
@@ -75,6 +76,7 @@ Available package names:
 - `clock-analog` - Analog clock widget
 - `clock-digital` - Digital & World clock widget
 - `clock-digital-large` - Large digital clock widget
+- `clock-digital-stacked` - Four-line vertically stacked digital clock widget
 - `date` - Date display widget
 - `battery` - Battery monitoring widget
 - `weather` - Weather widget with multiple layouts ( square, rectangular, and circular - single and double page )
